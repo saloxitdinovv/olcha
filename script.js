@@ -77,3 +77,50 @@ buy_product.append(buy_button)
 buy_button.append(buy)
 buy_product.append(buy_credit)
 
+
+let timer = document.querySelector('.timer')
+let hours = document.querySelector('#hours')
+let minutes = document.querySelector('#minutes')
+let seconds = document.querySelector('#seconds')
+
+let deadLine = '2023-09-08  19:29'
+
+
+function getRemainingDate(endTime) {
+    let t = Date.parse(endTime) - new Date().getTime(),
+        seconds = Math.floor((t / 1000) % 60),
+        minutes = Math.floor((t / 1000) / 60 % 60),
+        hours = Math.floor((t / 1000) / 60 / 60 % 24);
+
+    return {
+        t,
+        seconds,
+        minutes,
+        hours,
+    }
+}
+
+function setTimer(endTime,selector) {
+    let t = document.querySelector(selector),
+        hours = t.querySelector('#hours'),
+        minutes = t.querySelector('#minutes'),
+        seconds = t.querySelector('#seconds'),
+        interval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+        let t = getRemainingDate(endTime);
+        hours.innerHTML = `${t.hours < 10 ? `0${t.hours}` : t.hours}`
+        minutes.innerHTML = `${t.minutes < 10 ? `0${t.minutes}` : t.minutes}`
+        seconds.innerHTML = `${t.seconds < 10 ? `0${t.seconds}` : t.seconds}`
+
+
+        if(t.t <= 0) {
+            hours.innerHTML = 0
+            minutes.innerHTML = 0
+            seconds.innerHTML = 0
+            clearInterval(interval)
+        }
+    }
+}
+
+setTimer(deadLine,'.timer')
